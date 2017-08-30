@@ -1,10 +1,3 @@
-//
-//  ZQLocalNotification.h
-//  EXE
-//
-//  Created by 祝贺 on 2017/3/6.
-//  Copyright © 2017年 zhuhe. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>

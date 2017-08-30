@@ -1,21 +1,9 @@
-//
-//  ZQLocalNotification.m
-//  EXE
-//
-//  Created by 祝贺 on 2017/3/6.
-//  Copyright © 2017年 zhuhe. All rights reserved.
-//
+
+
+
 #import "ZQLocalNotification.h"
 
-NSString *notificationDateFormat(NotificationType status) {
-    switch (status) {
-        case TimerNotification:
-            return @"yyyy-MM-dd";
-        case CountdownNotification:
-            return @"yyyy-MM-dd HH:mm:ss zzz";
-    }
-}
-static NSInteger const afterTime_zq = 20;
+static NSInteger const afterTime_zq = 5;
 #define MY_SYSTEMVERSION [[[UIDevice currentDevice] systemVersion] floatValue]
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
 #import <UserNotifications/UserNotifications.h>
@@ -24,7 +12,6 @@ static NSInteger const afterTime_zq = 20;
 @implementation ZQLocalNotification
 
 +(void)initialize{
-
     [self registerNotification];
 }
 
@@ -38,8 +25,7 @@ static NSInteger const afterTime_zq = 20;
             withTimeDay:(NSInteger  )day
                    hour:(NSInteger  )hour
                  minute:(NSInteger  )minute
-                 second:(NSInteger  )second;
-{
+                 second:(NSInteger  )second{
     
     [self registerNotification];
     [self cancleLocationIdentifier:identifier activityIds:activityId];
@@ -56,33 +42,26 @@ static NSInteger const afterTime_zq = 20;
                                hour:(NSInteger )hour
                              minute:(NSInteger )minute
                              second:(NSInteger )second{
+    
     NSTimeInterval allTime = 0 ;
     if (day) {
         allTime += day * 24 *60 *60;
     }
-    
     if (hour) {
         allTime += hour *60*60;
     }
-    
     if (minute) {
         allTime += minute *60;
     }
-    
     if (second) {
         allTime += second;
     }
-    
     //测试延迟 5s
     if (allTime == 0) {
-    
         NSLog(@"---设置时间为 nil 或者 0  afterTime_zq后唤起本地通知");
     }
-    
     allTime += afterTime_zq;
-    
     return allTime;
-    
 }
 
 +(void)NotificationiOSTenBeforeIdentifier:(NSString *)identifier
@@ -110,6 +89,9 @@ static NSInteger const afterTime_zq = 20;
 
 +(void)NotificationiOSTenLaterWithKey:(NSString *)key activityId:(NSInteger )activityId alertBody:(NSString *)alertBody alertTitle:(NSString *)alertTitle time:(NSTimeInterval)time alertString:(NSString *)alertString{
     // 使用 UNUserNotificationCenter 来管理通知
+    
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
+
     UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
     //需创建一个包含待通知内容的 UNMutableNotificationContent 对象，注意不是 UNNotificationContent ,此对象为不可变对象。
     UNMutableNotificationContent* content = [[UNMutableNotificationContent alloc] init];
@@ -123,6 +105,7 @@ static NSInteger const afterTime_zq = 20;
     [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
         NSLog(@"error = %@",request);
     }];
+#endif
 }
 
 
@@ -147,8 +130,8 @@ static NSInteger const afterTime_zq = 20;
 
 
 +(NSDate *)getNotificationTimeWithTime:(NSTimeInterval)time notificationType:(NotificationType)notificationType{
+
     NSString *dateFormat = notificationDateFormat(notificationType);
-    
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:dateFormat];
     NSDate *date = [[NSDate alloc]init];
@@ -161,7 +144,6 @@ static NSInteger const afterTime_zq = 20;
     NSTimeInterval interval = time;
     NSDate *notificationDate = [date initWithTimeInterval:interval sinceDate:date2];
     return notificationDate;
-    
 }
 
 
@@ -177,7 +159,6 @@ static NSInteger const afterTime_zq = 20;
 +(void)registerNotification{
     
     if (MY_SYSTEMVERSION >= 10.0) {
-#define MY_SYSTEMVERSION [[[UIDevice currentDevice] systemVersion] floatValue]
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
         UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
         //请求获取通知权限（角标，声音，弹框）
@@ -216,12 +197,23 @@ static NSInteger const afterTime_zq = 20;
             }
         }];
     }else{
-#define MY_SYSTEMVERSION [[[UIDevice currentDevice] systemVersion] floatValue]
+
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
         [[UNUserNotificationCenter currentNotificationCenter] removePendingNotificationRequestsWithIdentifiers:@[identifier]];
 #endif
         
     }
 }
+
+
+NSString *notificationDateFormat(NotificationType status) {
+    switch (status) {
+        case TimerNotification:
+            return @"yyyy-MM-dd";
+        case CountdownNotification:
+            return @"yyyy-MM-dd HH:mm:ss zzz";
+    }
+}
+
 
 @end

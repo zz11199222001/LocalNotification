@@ -1,10 +1,4 @@
-//
-//  ViewController.m
-//  EXE
-//
-//  Created by 祝贺 on 16/9/26.
-//  Copyright © 2016年 zhuhe. All rights reserved.
-//
+
 
 #import "ViewController.h"
 #import "ZQLocalNotification.h"

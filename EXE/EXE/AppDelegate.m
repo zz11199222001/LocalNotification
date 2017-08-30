@@ -1,10 +1,4 @@
-//
-//  AppDelegate.m
-//  EXE
-//
-//  Created by 祝贺 on 16/9/26.
-//  Copyright © 2016年 zhuhe. All rights reserved.
-//
+
 
 #import "AppDelegate.h"
 #import "ViewController.h"
@@ -21,29 +15,7 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
    
-        
-//        self.login_NumberTF.KeyBoardStyle = TextFiledKeyBoardStyleMoney;
-//      __weak  PDLoginAndRegisterViewController *pdLogin = self;
-//
-//        //自定义数字键盘 响应事件
-//        self.login_NumberTF.categorySureBtnActionBlock = ^(){
-//            __strong PDLoginAndRegisterViewController *strongPdlogin = pdLogin;
-//            if ([[NSThread currentThread] isMainThread]) {
-//                strongPdlogin.loginInputViewHeight = 80;
-//                strongPdlogin.tableView.hidden = YES;
-//                [strongPdlogin.tableView reloadData];
-//            }else{
-//                dispatch_async(dispatch_get_main_queue(), ^{
-//                    strongPdlogin.loginInputViewHeight = 80;
-//                    strongPdlogin.tableView.hidden = YES;
-//                    [strongPdlogin.tableView reloadData];
-//                    
-//                });
-//            }
-//      
-//        };
- 
-    
+
     return YES;
 }
 
